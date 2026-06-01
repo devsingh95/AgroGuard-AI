@@ -5,10 +5,11 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
 import '../services/disease_database_service.dart';
+import '../core/services/backend_config.dart';
 
 class DiseaseDetectionScreen extends StatefulWidget {
   const DiseaseDetectionScreen({Key? key}) : super(key: key);
-
+      final uri = BackendConfig.apiUri('/api/predict_disease');
   @override
   State<DiseaseDetectionScreen> createState() =>
       _DiseaseDetectionScreenState();
@@ -240,7 +241,7 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
     });
 
     try {
-      final uri = Uri.parse('http://localhost:5000/api/predict_disease');
+      final uri = BackendConfig.apiUri('/api/predict_disease');
       final request = http.MultipartRequest('POST', uri);
       request.files.add(
         await http.MultipartFile.fromPath('image', _selectedImage!.path),
@@ -265,8 +266,7 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
       }
     } catch (e) {
       setState(() {
-        _errorMessage =
-            'Error: Could not connect to backend (localhost:5000)';
+        _errorMessage = 'Error: Could not connect to backend';
         _isLoading = false;
       });
     }

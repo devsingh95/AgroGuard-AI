@@ -29,7 +29,7 @@ class AppStrings {
 
   static String t(String key) =>
       (_strings[AppLang.current.value] ?? _strings['en']!)[key] ??
-      (_strings['en']!)[key] ??
+      _strings['en']![key] ??
       key;
 
   static const Map<String, Map<String, String>> _strings = {
@@ -1086,8 +1086,7 @@ class _LanguagePickerSheetState extends State<_LanguagePickerSheet>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
+  Widget build(BuildContext context) => AnimatedBuilder(
       animation: _slideUp,
       builder: (_, child) => SlideTransition(
         position: Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
@@ -1231,5 +1230,4 @@ class _LanguagePickerSheetState extends State<_LanguagePickerSheet>
         ),
       ),
     );
-  }
 }

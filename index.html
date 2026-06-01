@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#153b2e">
+  <meta name="description" content="AgroGuard AI - crop intelligence, disease detection, and sensor monitoring.">
+  <title>AgroGuard AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23153b2e'/%3E%3Cpath d='M19 36c7-1 14-8 15-17 8 6 13 14 12 22-1 10-9 16-18 16-6 0-11-2-14-6 2-5 4-10 5-15Z' fill='%2364d38a'/%3E%3Cpath d='M25 41c4-5 9-8 15-9' stroke='%23d8ffe6' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+
+  <main class="shell">
+    <header class="hero card">
+      <div>
+        <p class="eyebrow">Vercel-ready deployment</p>
+        <h1>AgroGuard AI</h1>
+        <p class="lede">A single-page agriculture control center for crop prediction, disease analysis, and live sensor telemetry.</p>
+      </div>
+      <div class="hero-actions">
+        <label>
+          Backend URL
+          <input id="backendUrl" type="url" placeholder="https://your-backend.example.com" autocomplete="off">
+        </label>
+        <div class="button-row">
+          <button id="saveBackend" class="primary">Save backend</button>
+          <button id="resetBackend" class="secondary">Use same origin</button>
+        </div>
+        <p id="backendStatus" class="status">Using same-origin API calls by default.</p>
+      </div>
+    </header>
+
+    <section class="grid">
+      <section class="card panel">
+        <div class="panel-head">
+          <h2>Crop recommendation</h2>
+          <span class="chip">POST /api/predict_crop</span>
+        </div>
+        <form id="cropForm" class="form-grid">
+          <label>Nitrogen <input name="nitrogen" type="number" step="0.1" value="50"></label>
+          <label>Phosphorus <input name="phosphorus" type="number" step="0.1" value="30"></label>
+          <label>Potassium <input name="potassium" type="number" step="0.1" value="40"></label>
+          <label>Temperature <input name="temperature" type="number" step="0.1" value="25"></label>
+          <label>Humidity <input name="humidity" type="number" step="0.1" value="70"></label>
+          <label>pH <input name="ph" type="number" step="0.01" value="6.8"></label>
+          <label>Rainfall <input name="rainfall" type="number" step="0.1" value="200"></label>
+          <button class="primary full" type="submit">Predict crop</button>
+        </form>
+        <pre id="cropResult" class="result empty">Prediction will appear here.</pre>
+      </section>
+
+      <section class="card panel">
+        <div class="panel-head">
+          <h2>Disease detection</h2>
+          <span class="chip">POST /api/predict_disease</span>
+        </div>
+        <form id="diseaseForm" class="stack">
+          <label class="upload">
+            <input id="diseaseImage" name="image" type="file" accept="image/*" required>
+            <span>Choose a leaf image</span>
+          </label>
+          <label>Crop type <input id="cropType" name="crop_type" type="text" placeholder="Tomato, rice, maize"></label>
+          <button class="primary full" type="submit">Analyze disease</button>
+        </form>
+        <pre id="diseaseResult" class="result empty">Image analysis will appear here.</pre>
+      </section>
+
+      <section class="card panel wide">
+        <div class="panel-head">
+          <h2>Sensor dashboard</h2>
+          <span class="chip">GET /api/sensor_data</span>
+        </div>
+        <div class="toolbar">
+          <button id="refreshSensors" class="secondary">Refresh now</button>
+          <span id="sensorMeta" class="status">Polling every 8 seconds.</span>
+        </div>
+        <div id="sensorGrid" class="sensor-grid"></div>
+        <div id="sensorAlert" class="alert empty">Waiting for sensor data.</div>
+      </section>
+    </section>
+  </main>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>

@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../core/services/backend_config.dart';
 
 /// Government Portal API Service
 /// Communicates with all /api/govt/* backend endpoints
 class GovtApiService {
-  static const String _baseUrl = 'http://localhost:5000/api/govt';
+  static String get _baseUrl => '${BackendConfig.origin}/api/govt';
 
   // ── eNAM Mandi Prices ──────────────────────────────────────────────────
 
@@ -116,7 +117,7 @@ class GovtApiService {
 
   static Future<Map<String, dynamic>> _get(String path, [Map<String, String>? params]) async {
     try {
-      final uri = Uri.parse('$_baseUrl$path').replace(queryParameters: params);
+      final uri = BackendConfig.apiUri('/api/govt$path', queryParameters: params);
       final response = await http.get(uri).timeout(const Duration(seconds: 15));
       if (response.statusCode == 200) {
         return json.decode(response.body) as Map<String, dynamic>;
@@ -129,7 +130,7 @@ class GovtApiService {
 
   static Future<Map<String, dynamic>> _post(String path, Map<String, dynamic> body) async {
     try {
-      final uri = Uri.parse('$_baseUrl$path');
+      final uri = BackendConfig.apiUri('/api/govt$path');
       final response = await http.post(uri,
         headers: {'Content-Type': 'application/json'},
         body: json.encode(body),

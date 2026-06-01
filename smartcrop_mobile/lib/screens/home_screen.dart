@@ -65,8 +65,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<String>(
+  Widget build(BuildContext context) => ValueListenableBuilder<String>(
       valueListenable: AppLang.current,
       builder: (context, _, __) {
         final screenWidth = MediaQuery.of(context).size.width;
@@ -100,7 +99,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         );
       },
     );
-  }
 
   List<Widget> _buildFloatingElements() {
     final items = [
@@ -676,7 +674,7 @@ class _AgroLogoInnerPainter extends CustomPainter {
       ..shader = RadialGradient(
         colors: [
           const Color(0xFF52B788).withValues(alpha: 0.25),
-          const Color(0xFF52B788).withValues(alpha: 0.0),
+          const Color(0xFF52B788).withValues(alpha: 0),
         ],
       ).createShader(Rect.fromCircle(center: Offset(w / 2, h / 2), radius: w * 0.45));
     canvas.drawCircle(Offset(w / 2, h / 2), w * 0.45, glowPaint);

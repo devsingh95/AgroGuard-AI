@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
+import '../core/services/backend_config.dart';
 
 class SensorDashboardScreen extends StatefulWidget {
   const SensorDashboardScreen({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class _SensorDashboardScreenState extends State<SensorDashboardScreen> {
   Future<void> _fetchSensorData() async {
     try {
       final response =
-          await http.get(Uri.parse('http://localhost:5000/api/sensor_data'));
+          await http.get(BackendConfig.apiUri('/api/sensor_data'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -53,8 +54,7 @@ class _SensorDashboardScreenState extends State<SensorDashboardScreen> {
       }
     } catch (e) {
       setState(() {
-        _errorMessage =
-            'Error: Could not connect to backend (localhost:5000)';
+        _errorMessage = 'Error: Could not connect to backend';
       });
     }
   }

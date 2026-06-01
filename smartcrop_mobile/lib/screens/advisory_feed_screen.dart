@@ -49,13 +49,15 @@ class _AdvisoryFeedScreenState extends State<AdvisoryFeedScreen> {
         GovtApiService.getAdvisoryCategories(),
         GovtApiService.getStates(),
       ]);
-      if (mounted) setState(() {
+      if (mounted) {
+        setState(() {
         final res = futures[0] as Map<String, dynamic>;
         _advisories = List<dynamic>.from((res['data'] as List?) ?? []);
         _categories = futures[1] as List<dynamic>;
         _states = futures[2] as List<String>;
         _loading = false;
       });
+      }
     } catch (_) {
       if (mounted) setState(() => _loading = false);
     }
@@ -67,10 +69,12 @@ class _AdvisoryFeedScreenState extends State<AdvisoryFeedScreen> {
       category: _selectedCategory,
       state: _selectedState,
     );
-    if (mounted) setState(() {
+    if (mounted) {
+      setState(() {
       _advisories = List<dynamic>.from((res['data'] as List?) ?? []);
       _loading = false;
     });
+    }
   }
 
   @override

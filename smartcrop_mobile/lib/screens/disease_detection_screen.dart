@@ -5,11 +5,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import '../services/disease_database_service.dart';
 import '../services/disease_translations.dart';
+import '../core/services/backend_config.dart';
 import '../core/lang_provider.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Disease Detection Screen – Professional Farming Theme + Animations
-// Uses Uint8List + Image.memory; no dart:io / no sqflite
+      final uri     = BackendConfig.apiUri('/api/predict_disease');
 // ─────────────────────────────────────────────────────────────────────────────
 
 class DiseaseDetectionScreen extends StatefulWidget {
@@ -118,7 +119,7 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen>
     });
 
     try {
-      final uri     = Uri.parse('http://localhost:5000/api/predict_disease');
+      final uri     = BackendConfig.apiUri('/api/predict_disease');
       final request = http.MultipartRequest('POST', uri);
       request.files.add(http.MultipartFile.fromBytes(
         'image', _imageBytes!, filename: _imageFileName ?? 'upload.jpg',
@@ -129,7 +130,7 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen>
 
       final streamedResponse = await request.send().timeout(
         const Duration(seconds: 45),
-        onTimeout: () => throw Exception('Request timed out – is the backend running at localhost:5000?'),
+        onTimeout: () => throw Exception('Request timed out – is the backend reachable?'),
       );
       final responseBody = await streamedResponse.stream.bytesToString();
 

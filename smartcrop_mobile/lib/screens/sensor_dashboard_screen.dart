@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
+import '../core/services/backend_config.dart';
 import '../core/lang_provider.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -66,9 +67,9 @@ class _SensorDashboardScreenState extends State<SensorDashboardScreen>
   Future<void> _fetchAllData() async {
     try {
       final responses = await Future.wait([
-        http.get(Uri.parse('http://localhost:5000/api/sensor_data')),
-        http.get(Uri.parse('http://localhost:5000/api/sensor_data/analytics')),
-        http.get(Uri.parse('http://localhost:5000/api/sensor_scenarios')),
+        http.get(BackendConfig.apiUri('/api/sensor_data')),
+        http.get(BackendConfig.apiUri('/api/sensor_data/analytics')),
+        http.get(BackendConfig.apiUri('/api/sensor_scenarios')),
       ], eagerError: false);
 
       if (responses[0].statusCode == 200 && responses[1].statusCode == 200 && responses[2].statusCode == 200) {
@@ -87,13 +88,13 @@ class _SensorDashboardScreenState extends State<SensorDashboardScreen>
         setState(() => _errorMessage = 'Backend error: ${responses[0].statusCode}');
       }
     } catch (e) {
-      setState(() => _errorMessage = 'Could not connect to backend (localhost:5000)');
+      setState(() => _errorMessage = 'Could not connect to backend');
     }
   }
 
   Future<void> _setScenario(String scenario) async {
     try {
-      final response = await http.post(Uri.parse('http://localhost:5000/api/sensor_scenarios/$scenario'));
+      final response = await http.post(BackendConfig.apiUri('/api/sensor_scenarios/$scenario'));
       if (response.statusCode == 200) {
         _fetchAllData();
       } else {

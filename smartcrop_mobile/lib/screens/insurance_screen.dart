@@ -49,10 +49,12 @@ class _InsuranceScreenState extends State<InsuranceScreen> with SingleTickerProv
       GovtApiService.getInsurableCrops(),
       GovtApiService.getInsuranceDeadlines(),
     ]);
-    if (mounted) setState(() {
+    if (mounted) {
+      setState(() {
       _cropsData = res[0]['crops'] as Map<String, dynamic>?;
       _deadlines = res[1]['deadlines'] as Map<String, dynamic>?;
     });
+    }
   }
 
   Future<void> _calculatePremium() async {
@@ -255,8 +257,8 @@ class _InsuranceScreenState extends State<InsuranceScreen> with SingleTickerProv
         ),
         const SizedBox(height: 12),
 
-        _resultRow('${AppStrings.t('govtPays')}', '₹${_formatNum(_premium!['government_subsidy'])}'),
-        _resultRow('${AppStrings.t('govtSubsidy')}', '${_premium!['govt_subsidy_percentage']}%'),
+        _resultRow(AppStrings.t('govtPays'), '₹${_formatNum(_premium!['government_subsidy'])}'),
+        _resultRow(AppStrings.t('govtSubsidy'), '${_premium!['govt_subsidy_percentage']}%'),
         _resultRow(AppStrings.t('enrollBy'), _premium!['deadline']?.toString() ?? ''),
 
         if (_premium!['note'] != null) ...[
@@ -397,7 +399,7 @@ class _InsuranceScreenState extends State<InsuranceScreen> with SingleTickerProv
           const SizedBox(height: 16),
           Text(AppStrings.t('timeline'), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF1B2A1B))),
           const SizedBox(height: 8),
-          ...(List<dynamic>.from((_claimStatus!['timeline'] as List?) ?? [])).map((t) {
+          ...List<dynamic>.from((_claimStatus!['timeline'] as List?) ?? []).map((t) {
             final step = t as Map<String, dynamic>;
             final completed = step['status'] == 'completed';
             return Padding(

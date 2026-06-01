@@ -44,7 +44,8 @@ class _MandiPriceScreenState extends State<MandiPriceScreen> with SingleTickerPr
         GovtApiService.getMarketAlerts(),
         GovtApiService.getSeasonalCalendar(),
       ]);
-      if (mounted) setState(() {
+      if (mounted) {
+        setState(() {
         _states = futures[0] as List<String>;
         _commodities = futures[1] as Map<String, dynamic>;
         final priceRes = futures[2] as Map<String, dynamic>;
@@ -53,6 +54,7 @@ class _MandiPriceScreenState extends State<MandiPriceScreen> with SingleTickerPr
         _calendar = futures[4] as List<dynamic>;
         _loading = false;
       });
+      }
     } catch (_) {
       if (mounted) setState(() => _loading = false);
     }
@@ -63,10 +65,12 @@ class _MandiPriceScreenState extends State<MandiPriceScreen> with SingleTickerPr
     final res = await GovtApiService.getMandiPrices(
       state: _selectedState, commodity: _selectedCommodity, limit: 50,
     );
-    if (mounted) setState(() {
+    if (mounted) {
+      setState(() {
       _prices = List<dynamic>.from((res['data'] as List?) ?? []);
       _loading = false;
     });
+    }
   }
 
   Future<void> _loadComparison(String commodity) async {

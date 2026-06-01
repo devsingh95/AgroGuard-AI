@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../core/services/backend_config.dart';
 import '../core/lang_provider.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -76,7 +77,7 @@ class _CropRecommendationScreenState extends State<CropRecommendationScreen>
 
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:5000/api/predict_crop'),
+        BackendConfig.apiUri('/api/predict_crop'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'nitrogen': double.parse(nitrogenController.text),
@@ -101,7 +102,7 @@ class _CropRecommendationScreenState extends State<CropRecommendationScreen>
         setState(() { _errorMessage = 'Backend error: ${response.statusCode}'; _isLoading = false; });
       }
     } catch (e) {
-      setState(() { _errorMessage = 'Could not connect to backend (localhost:5000)'; _isLoading = false; });
+      setState(() { _errorMessage = 'Could not connect to backend'; _isLoading = false; });
     }
   }
 
